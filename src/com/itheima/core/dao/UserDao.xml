@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.core.dao.UserDao" >
+    <!-- 查询用户 -->
+    <select id="selectUser" parameterType="String" resultType="user">
+	    select *
+	    from userImfo
+	    <where>
+	    	<if test="userid!=null">and userid=#{userid}</if>
+	    	<if test="password!=null">and password=#{password}</if>
+	    </where>
+    </select>
+    <insert id="insertUser" parameterType="user">
+    	insert
+    	into UserImfo(userid,username,userphone,password)
+    	values(#{userid},#{username},#{userphone},#{password})
+    </insert>
+    <update id="updateUser" parameterType="user">
+    	update userImfo
+    	<set>
+    		<if test="username!=null">username=#{username},</if>
+    		<if test="userphone!=null">userphone=#{userphone},</if>
+    		<if test="password!=null">password=#{password},</if>
+    	</set>
+    	where userid=#{userid}
+    </update>
+    <sql id="selectUserListWhere">
+    	<where>
+    		<if test="1==1">and 1=1</if>
+    		<if test="userid!=null and userid!=''">and userid=#{userid}</if>
+    		<if test="username!=null and username!=''">and username like concat('%',#{username},'%')</if>
+    		<if test="userphone!=null and userphone!=''">and userphone=#{userphone}</if>
+    	</where>
+    </sql>
+    <select id="selectUserList" parameterType="user" resultType="user">
+    	select top ${rows} *
+    	from userImfo
+    	<include refid="selectUserListWhere"></include>
+    	<if test="start!=null and rows!=null">
+				and userid not in(select top ${start} userid from userImfo
+								<include refid="selectUserListWhere"></include>)
+		</if>
+    </select>
+    <select id="selectUserListCount" parameterType="user" resultType="Integer">
+    	select count(*) from userImfo
+    	<include refid="selectUserListWhere"></include>    	
+    </select>
+</mapper>

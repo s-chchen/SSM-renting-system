@@ -1,0 +1,169 @@
+.content {
+    position: relative;
+}
+.clear, .clear:after {
+    display: block;
+}
+
+.w780, .w1150 {
+    margin: 0 auto;
+}
+.w1150 {
+    width: 1150px;
+}
+.content .content__core {
+    width: 100%;
+}
+.content__core .content__article__slide {
+    width: 565px;
+    height: 390px;
+    float: left;
+    position: relative;
+    overflow: hidden;
+}
+.content .content__aside {
+    width: 565px;
+    height: 390px;
+    border: 1px solid #e4e6f0;
+    padding: 17px 30px 0;
+    background-color: #fff;
+    box-sizing: border-box;
+    float: left;
+}
+.fr {
+    float: right;
+}
+.content .content__aside .content__aside--title {
+    font-size: 16px;
+    color: #fa5741;
+    margin-bottom: 10px;
+}
+.content .content__aside .content__aside--title>span {
+    font-size: 30px;
+    font-weight: 700;
+    margin-right: 4px;
+    line-height: 42px;
+}
+.content .content__aside .content__aside__list {
+    padding-top: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e4e6f0;
+    max-height: 170px;
+    overflow: visible;
+    overflow: initial;
+    width: 340px;
+}
+.content .content__aside .content__aside__list li {
+    position: relative;
+    overflow: visible;
+    overflow: initial;
+    font-size: 14px;
+    line-height: 14px;
+    margin-bottom: 10px;
+    color: #101d37;
+}
+.content .content__aside .content__aside__list li span.label {
+    color: #9399a5;
+}
+
+.content .content__aside .content__aside__list.house-detail {
+    border-bottom: 0;
+}
+.content .content__aside .content__aside__list {
+    padding-top: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #e4e6f0;
+    max-height: 170px;
+    overflow: visible;
+    overflow: initial;
+    width: 340px;
+}
+element.style {
+    background-image: url(https://img.ljcdn.com/usercenter/images/uc_ehr_avatar/9851fd42-5683-413f-8600-3d11fd192a0f.jpg.480x640.jpg);
+}
+.content .content__aside .content__aside__list .content__aside__list--icon {
+    float: left;
+    width: 60px;
+    height: 60px;
+    border: 1px solid #e4e6f0;
+    border-radius: 30px;
+    margin-right: 10px;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-image: url(https://s1.ljcdn.com/matrix_pc/dist/pc/src/resource/detail/agent_icon.png?v=1607407817917);
+}
+.content .content__aside .content__aside__list .content__aside__list--title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #101d37;
+    line-height: 28px;
+    height: 28px;
+    margin-right: 10px;
+    margin-bottom: 4px;
+    padding-top: 4px;
+    position: relative;
+    overflow: visible;
+    overflow: initial;
+}
+.oneline {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.content .content__aside .content__aside__list .content__aside__list--title .contact_name {
+    display: inline-block;
+    max-width: 85%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.content .content__aside .content__aside__list .content__aside__list--subtitle {
+    font-size: 14px;
+    margin-bottom: 17px;
+    color: #101d37;
+    line-height: 20px;
+    white-space: normal;
+}
+.oneline {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.content .content__aside .content__aside__list.house-detail .phone__hover--wrapper {
+    font-size: 0;
+}
+.phone__hover--wrapper {
+    position: relative;
+}
+.content__aside__phone{
+	width: 170px;
+    font-family: PingFangSC-Semibold;
+    font-size: 15px;
+    line-height: 50px;
+    color: #fff;
+    font-weight: 700;
+    background: #3072f6;
+    border-radius: 2px;
+    text-align: center;
+    display: inline-block;
+    padding: 0 5px;
+    vertical-align: middle;
+    margin-right: 20px;
+}
+.content__aside__booking{
+	width: 170px;
+    font-family: PingFangSC-Semibold;
+    font-size: 15px;
+    line-height: 50px;
+    color: #0080ff;
+    font-weight: 700;
+    background: #ffffff;
+    border: 1px solid #3072f6;
+    border-radius: 2px;
+    text-align: center;
+    display: inline-block;
+    padding: 0 5px;
+    vertical-align: middle;
+    margin-right: 20px;
+}

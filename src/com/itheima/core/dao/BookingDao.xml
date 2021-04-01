@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.core.dao.BookingDao">
+	<insert id="insertBooking" parameterType="booking">
+		insert 
+		into booking(btime,bhno,bmasterid,btenantid,bmoney,bmonth)
+		values(#{btime},#{bhno.hno},#{bmasterid.userid},#{btenantid.userid},#{bmoney},#{bmonth}) 
+	</insert>
+	<sql id="selectBookingListWhere">
+		<where>
+			<if test="1==1">1=1</if>
+			<if test="bno!=null">and bno=#{bno}</if>
+			<if test="btime!=null">and btime like concat('%',#{btime},'%')</if>
+			<if test="bhno!=null">and bhno=#{bhno.hno}</if>
+			<if test="bmasterid!=null">and bmasterid=#{bmasterid.userid}</if>
+			<if test="btenantid!=null">and btenantid=#{btenantid.userid}</if>
+<!-- 			<if test="bmoney!=null or bmoney!=0.0">and bmoney&gt;#{bmoney}-200 and bmoney&lt;#{bmoney}+200</if> -->
+			<if test="bmonth!=null">and bmonth=#{bmonth}</if>							
+		</where>
+	</sql>
+	<select id="selectBookingList" parameterType="booking" resultMap="BookingListWithUser">
+		select top ${rows} b.*, h.*,ut.*,um.*
+		from booking b,houseImfor h,userImfo ut,userImfo um
+		<include refid="selectBookingListWhere"></include>	
+		<if test="1==1">and b.bhno=h.hno</if>
+		<if test="1==1">and b.btenantid=ut.userid</if>		
+		<if test="1==1">and um.userid=b.bmasterid</if>
+		<if test="start!=null and rows!=null">
+			and bno not in(select top ${start} bno from booking 
+				<include refid="selectBookingListWhere"></include>)
+		</if>
+	</select>
+	<select id="selectBookingBybno" parameterType="Integer" resultMap="BookingListWithUser">
+		select b.*,h.*,ut.*
+		from booking b,houseImfor h,userImfo ut,userImfo um
+		where b.bno=#{bno}
+			and b.bhno=h.hno
+			and b.btenantid=ut.userid
+			and b.bmasterid=um.userid
+	</select>
+	<resultMap type="booking" id="BookingListWithUser">
+		<id property="bno" column="bno"></id>
+		<result property="btime" column="btime"></result>
+		<result property="bmoney" column="bmoney"></result>
+		<result property="bmonth" column="bmonth"></result>
+		<association property="bhno" javaType="house">
+			<id property="hno" column="hno"></id>		
+			<result property="haddr" column="haddr"></result>
+			<result property="harea" column="harea"></result>
+			<result property="hto" column="hto"></result>
+			<result property="hprice" column="hprice"></result>
+			<result property="h_rentstatus" column="h_rentstatus"></result>		
+		</association>
+		<association property="btenantid" column="btenantid" javaType="user" select="selectUserById">
+<!-- 			<result property="userid" column="userid"></result> -->
+<!-- 			<result property="username" column="username"></result> -->
+<!-- 			<result property="userphone" column="userphone"></result> -->
+		</association>
+		<association property="bmasterid" column="bmasterid" javaType="user" select="selectUserById">
+<!-- 			<result property="userid" column="userid"></result> -->
+<!-- 			<result property="username" column="username"></result> -->
+<!-- 			<result property="userphone" column="userphone"></result> -->
+		</association>
+	</resultMap>
+	<select id="selectUserById" parameterType="String" resultMap="UserType">
+		select * from userImfo where userid=#{_parameter}
+	</select>
+	<resultMap id="UserType" type="user">
+		<result property="userid" column="userid"/>
+		<result property="username" column="username"/>
+		<result property="userphone" column="userphone"/>
+	</resultMap>
+	<select id="selectBookingListCount" parameterType="booking" resultType="Integer">
+		select count(*) from booking
+		<include refid="selectBookingListWhere"></include>
+	</select>
+	<delete id="deleteBookingBybno" parameterType="Integer">
+		delete from booking
+		where bno=#{bno}
+	</delete>
+</mapper>

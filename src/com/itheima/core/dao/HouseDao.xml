@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.core.dao.HouseDao">
+	<sql id="selectHouseListWhere">
+		<where>
+			<if test="haddr!=null">and haddr like concat('%',#{haddr},'%')</if>
+			<if test="harea!=null">and harea &gt; #{harea}-10 and harea &lt; #{harea}+10</if>
+			<if test="hto!=null">and hto=#{hto}</if>
+			<if test="hprice!=null">and hprice&gt;#{hprice}-100 and hprice&lt;#{hprice}+100</if>
+			<if test="huserid!=null">and huserid=#{huserid.userid}</if>
+			<if test="h_rentstatus!=null">and h_rentstatus=#{h_rentstatus}</if>					
+		</where>
+	</sql>
+	<select id="selectHouseList" parameterType="house" resultMap="HouseListWithUser">
+		select top ${rows} h.hno,h.haddr,h.harea,h.hto,h.hprice,h.h_rentstatus,u.userid
+		from houseImfor h,userImfo u
+		<include refid="selectHouseListWhere"></include>
+		<if test="1==1">and h.huserid=u.userid</if>	
+		<if test="start!=null and rows!=null">
+				and hno not in(select top ${start} hno from houseImfor
+								<include refid="selectHouseListWhere"></include>)
+		</if>		
+	</select>
+	<resultMap type="house" id="HouseListWithUser">
+		<id property="hno" column="hno"></id>		
+		<result property="haddr" column="haddr"></result>
+		<result property="harea" column="harea"></result>
+		<result property="hto" column="hto"></result>
+		<result property="hprice" column="hprice"></result>
+		<result property="h_rentstatus" column="h_rentstatus"></result>
+		<association property="huserid" javaType="user">
+			<result property="userid" column="userid"></result>
+			<result property="username" column="username"></result>
+			<result property="userphone" column="userphone"></result>
+		</association>
+	</resultMap>
+	<select id="selectHouseListCount" parameterType="house" resultType="Integer">
+		select count(*) from houseImfor
+		<include refid="selectHouseListWhere"></include>
+	</select>
+	<select id="selectHouseByhno" parameterType="Integer" resultMap="HouseWithUser">
+		select h.*,u.username,u.userphone,u.userid
+		from houseImfor h,userImfo u
+		where h.huserid=u.userid
+		and h.hno=#{hno}
+	</select>
+	<resultMap type="house" id="HouseWithUser">
+		<id property="hno" column="hno"></id>		
+		<result property="haddr" column="haddr"></result>
+		<result property="harea" column="harea"></result>
+		<result property="hto" column="hto"></result>
+		<result property="hprice" column="hprice"></result>
+		<result property="h_rentstatus" column="h_rentstatus"></result>
+		<association property="huserid" javaType="user">
+			<result property="userid" column="userid"></result>
+			<result property="username" column="username"></result>
+			<result property="userphone" column="userphone"></result>
+		</association>
+	</resultMap>
+	<insert id="insertHouse" parameterType="house">
+		insert 
+		into houseImfor(huserid,haddr,harea,hto,hprice,h_sales_time,h_rentstatus)
+		values(#{huserid.userid},#{haddr},#{harea},#{hto},#{hprice},#{h_sales_time},'待租')
+	</insert>
+	<sql id="updateHouseSet">
+		<set>
+			<if test="haddr!=null">haddr=#{haddr},</if>
+			<if test="harea!=null">harea=#{harea},</if>
+			<if test="hto!=null">hto=#{hto},</if>
+			<if test="hprice!=null">hprice=#{hprice},</if>
+			<if test="h_rentstatus!=null">h_rentstatus=#{h_rentstatus},</if>
+		</set>
+	</sql>
+	<update id="updateHouse" parameterType="house">
+		update houseImfor
+<!-- 		<include refid="updateHouseSet"></include> -->
+		<set>
+			<if test="haddr!=null">haddr=#{haddr},</if>
+			<if test="harea!=null">harea=#{harea},</if>
+			<if test="hto!=null">hto=#{hto},</if>
+			<if test="hprice!=null">hprice=#{hprice},</if>
+			<if test="h_rentstatus!=null">h_rentstatus=#{h_rentstatus},</if>
+		</set>
+		where hno=#{hno}
+	</update>
+	<delete id="deleteHouseByhno" parameterType="Integer">
+		delete from houseImfor 
+		where hno=#{hno}
+	</delete>	
+</mapper>
